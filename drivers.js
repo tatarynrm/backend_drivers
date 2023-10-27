@@ -36,13 +36,16 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(helmet());
 app.use(express.json());
 // app.use(cors(corsConfig));
+app.use(cookieParser());
 app.use(
   cors({
-    origin: "*",
+    // origin: "http://localhost:3000",
+    origin: ["https://carriers.ict.lviv.ua","http://localhost:3000"],
     methods: ["POST", "GET"],
+    credentials: true,
   })
 );
-app.use(cookieParser());
+
 
 app.use("/", authRouter);
 app.use("/", transportationRouter);

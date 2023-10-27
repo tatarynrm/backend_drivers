@@ -9,6 +9,7 @@ class TransportationService {
   async transportations(KOD) {
     const connection = await oracledb.getConnection(pool);
     connection.currentSchema = "ICTDAT";
+    console.log("KOD",KOD);
     // const res = await connection.execute(`select * from zap`)
     const result = await connection.execute(
       `select a.kod,
@@ -42,7 +43,7 @@ class TransportationService {
       
       a.am,
       a.pr,
-      a.vod1 || decode(a.vod1tel, null, null, ' '  ,a.vod1tel) as vod,
+      a.vod1 || decode(a.vod1tel, null, null, ' ',a.vod1tel) as vod,
       
       b.datzavf,
       b.datrozvf,
@@ -65,12 +66,13 @@ left join ur f2 on a.kod_per = f2.kod
 left join valut h2 on a.kod_valutp = h2.kod
 left join os m2 on a.kod_menp = m2.kod
 left join v_pertype p on a.code_per = p.code
-where  
+where  ROWNUM <= 100 and
      a.kod_per = ${KOD} and
      a.datprov is not null and
      a.appdat is not null  
-order by a.dat desc FETCH FIRST 300 ROWS ONLY`
+order by a.dat desc`
     );
+    console.log(result);
     return {
       result,
     };
