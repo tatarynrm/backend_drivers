@@ -43,6 +43,7 @@ app.use(
     origin: ["https://carriers.ict.lviv.ua","http://localhost:3000"],
     methods: ["POST", "GET"],
     credentials: true,
+    // ...
   })
 );
 
