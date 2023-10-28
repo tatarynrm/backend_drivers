@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-
 const transporter = nodemailer.createTransport({
   // service: "smtp",
   host: "mail.ict.lviv.ua",

@@ -66,7 +66,7 @@ left join ur f2 on a.kod_per = f2.kod
 left join valut h2 on a.kod_valutp = h2.kod
 left join os m2 on a.kod_menp = m2.kod
 left join v_pertype p on a.code_per = p.code
-where  ROWNUM <= 100 and
+where  ROWNUM <= 200 and
      a.kod_per = ${KOD} and
      a.datprov is not null and
      a.appdat is not null  
