@@ -103,7 +103,8 @@ console.log(userData);
       const users = await userService.getTwoYearsData(KOD_UR);
       res.json({
         lastYear:users.resultPrev.rows,
-        thisYear:users.resultThis.rows
+        thisYear:users.resultThis.rows,
+        twoYearsAgo:users.result2YearsAgo.rows
       });
     } catch (e) {
       next(e);

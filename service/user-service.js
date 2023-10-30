@@ -143,10 +143,20 @@ where a.kod_per = ${KOD_UR} and
 group by to_char(a.dat, 'YYYY.MM')
 order by mis
     `);
+    const result2YearsAgo = await conn.execute(`
+    select to_char(a.dat, 'YYYY.MM') as mis,
+       count(*) as kil
+from ictdat.zay a
+where a.kod_per = ${KOD_UR} and
+      trunc(a.dat, 'YYYY') = trunc(add_months(trunc(sysdate, 'MM'), -24), 'YYYY')
+group by to_char(a.dat, 'YYYY.MM')
+order by mis
+    `)
 
     return {
       resultPrev,
-      resultThis
+      resultThis,
+      result2YearsAgo
     }
   }
 
