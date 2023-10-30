@@ -5,7 +5,6 @@ const transportationService = require("../service/transportation-service");
 class TransportationController {
   async transportation(req, res, next) {
     const { KOD } = req.body;
-console.log(KOD);
     try {
       const userData = await transportationService.transportations(KOD);
       res.json(userData.result.rows);

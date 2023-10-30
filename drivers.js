@@ -38,26 +38,26 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
-// app.use(
-//   cors({
-//     // origin: "http://localhost:3000",
-//     origin: ["https://carriers.ict.lviv.ua", "http://localhost:3000"],
-//     methods: ["POST", "GET"],
-//     credentials: true,
-//     // ...
-//   })
-// );
+app.use(
+  cors({
+    // origin: "http://localhost:3000",
+    origin: ["https://carriers.ict.lviv.ua", "http://localhost:3000"],
+    methods: ["POST", "GET"],
+    credentials: true,
+    // ...
+  })
+);
 app.use((req, res, next) => {
-  // const allowedOrigins = [
-  //   "https://carriers.ict.lviv.ua",
-  //   "http://localhost:3000",
-  //   "https://ictwork.site",
-  // ];
   const allowedOrigins = [
-    process.env.ALLOW_ORIGIN_1,
-    process.env.ALLOW_ORIGIN_2,
-    process.env.ALLOW_ORIGIN_3,
+    "https://carriers.ict.lviv.ua",
+    "http://localhost:3000",
+    "https://ictwork.site",
   ];
+  // const allowedOrigins = [
+  //   process.env.ALLOW_ORIGIN_1,
+  //   process.env.ALLOW_ORIGIN_2,
+  //   process.env.ALLOW_ORIGIN_3,
+  // ];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Controll-Allow-Origin", origin);

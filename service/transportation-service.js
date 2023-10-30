@@ -4,12 +4,13 @@ const tokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-errors");
 const pool = require("../db/pool");
+const { Result } = require("express-validator");
 
 class TransportationService {
   async transportations(KOD) {
     const connection = await oracledb.getConnection(pool);
     connection.currentSchema = "ICTDAT";
-    console.log("KOD",KOD);
+    console.log("KOD", KOD);
     // const res = await connection.execute(`select * from zap`)
     const result = await connection.execute(
       `select a.kod,
@@ -52,7 +53,6 @@ class TransportationService {
       b.numrahp,
       b.datrahp,
       b.pernekomplekt
-      
 from zay a
 left join zaylst b on a.kod = b.kod_zay
 left join kraina c1 on a.kod_krainaz = c1.kod
@@ -66,13 +66,13 @@ left join ur f2 on a.kod_per = f2.kod
 left join valut h2 on a.kod_valutp = h2.kod
 left join os m2 on a.kod_menp = m2.kod
 left join v_pertype p on a.code_per = p.code
-where  ROWNUM <= 200 and
+where 
      a.kod_per = ${KOD} and
      a.datprov is not null and
-     a.appdat is not null  
-order by a.dat desc`
+     a.appdat is not null and
+     b.datdocp is null
+     order by a.dat DESC`
     );
-    console.log(result);
     return {
       result,
     };
@@ -103,8 +103,6 @@ order by a.dat desc`
     } catch (error) {
       console.log(error);
     }
-
-
   }
 }
 

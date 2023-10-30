@@ -8,7 +8,7 @@ const tokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-errors");
 class UserService {
-  async registration(email, password) {
+  async registration(email, password,KOD_UR) {
     console.log(email);
     const connection = await oracledb.getConnection(pool);
     const candidate = await connection.execute(

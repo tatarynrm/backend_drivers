@@ -11,14 +11,15 @@ const sendRegisterMail = async (email,password) => {
 
     const template = handlebars.compile(source)
     const replacements = {
-        email:'redwoolfik@gmail.com',
-        password:"ab123456"
+        // email:'redwoolfik@gmail.com',
+        email:"rt@ict.lviv.ua",
+        password:"test1test1"
     }
     const htmlToSend = template(replacements)
 
     const info = await transporter.sendMail({
         from:"ict-info-logistics@ict.lviv.ua",
-        to:"tatarynrm@gmail.com",
+        to:["tatarynrm@gmail.com","ab@ict.lviv.ua"],
         subject:"Вітаємо з реєстрацією!",
         text:"Ваші авторизаційні дані",
         html:htmlToSend
