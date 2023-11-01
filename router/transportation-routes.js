@@ -11,6 +11,8 @@ const authMiddleware = require("../middlewares/auth-middleware");
 const transportationController = require("../controllers/transportation-controller");
 
 router.post("/transportation", transportationController.transportation);
+router.post("/transportation-payfull", transportationController.payFullTransportations);
+router.post("/transportation-no-docs", transportationController.notEnoughDocs);
 router.get("/zap", transportationController.allZap);
 
 

@@ -13,6 +13,26 @@ class TransportationController {
       next(e);
     }
   }
+  async payFullTransportations(req, res, next) {
+    const { KOD } = req.body;
+    try {
+      const userData = await transportationService.payFullTransportations(KOD);
+      res.json(userData.result.rows);
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  }
+  async notEnoughDocs(req, res, next) {
+    const { KOD } = req.body;
+    try {
+      const userData = await transportationService.notEnoughDocs(KOD);
+      res.json(userData.result.rows);
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  }
   async allZap(req, res, next) {
     try {
       const userData = await transportationService.getAllZap();
