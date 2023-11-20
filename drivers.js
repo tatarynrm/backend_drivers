@@ -3,6 +3,7 @@ const oracledb = require("oracledb");
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 const moment = require("moment");
 require("moment/locale/uk");
+const { Telegraf, Markup } = require('telegraf');
 const express = require("express");
 const { Server } = require("socket.io");
 const app = express();
@@ -28,6 +29,7 @@ const {
 const pool = require("./db/pool");
 const { sendBuhTransport } = require("./nodemailer/nodemailer");
 const sendRegisterMail = require("./nodemailer/register/register-mail");
+const bot = require("./telegram_bot/bot_init");
 
 const io = new Server(server, {
   cors: corsConfig,
@@ -40,11 +42,9 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    // origin: "http://localhost:3000",
     origin: ["https://carriers.ict.lviv.ua", "http://localhost:3000"],
     methods: ["POST", "GET"],
     credentials: true,
-    // ...
   })
 );
 app.use((req, res, next) => {

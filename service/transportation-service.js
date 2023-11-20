@@ -65,6 +65,7 @@ left join ur f2 on a.kod_per = f2.kod
 left join valut h2 on a.kod_valutp = h2.kod
 left join os m2 on a.kod_menp = m2.kod
 left join v_pertype p on a.code_per = p.code
+
 where rownum <= 50 and
      a.kod_per = ${KOD} and
      a.datprov is not null and
@@ -139,8 +140,9 @@ where rownum <= 200 and
      a.kod_per = ${KOD} and
      a.datprov is not null and
      a.appdat is not null and
-     b.datdocp is not null and 
-     b.DATPNPREESTR is not null
+     b.datdocp is not null and
+     b.DATPNPREESTR is not null and 
+     a.dat > TO_DATE('2023-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2024-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2025-01-01', 'YYYY-MM-DD')
      order by a.dat DESC`
     );
     return {
@@ -227,13 +229,21 @@ where
           l.kilamzakr,
           l.kilamact,
           b.pip,
+          b.pipfull,
           c.TELEGRAMID,
-          k.idgmap as kraina      
+          k.idgmap as kraina,
+          os_$$pkg.GetTelRobMob(a.kod_os) as permentel,
+          os_$$pkg.GetEMailSl(a.kod_os) as permenemail,
+          c1.idd as zavkraina,
+          c2.idd as rozvkraina
+       
       FROM zap a
       JOIN OS b on a.kod_os = b.kod
       JOIN US c on a.kod_os = c.kod_os
       left join kraina k on a.kod_kraina = k.kod
-      join zaplst l on a.kod = l.kod_zap
+      left join zaplst l on a.kod = l.kod_zap
+      left join kraina c1 on a.kod_krainaz = c1.kod
+      left join kraina c2 on a.kod_krainar = c2.kod
       WHERE a.status = 0`
       );
       console.log(result);

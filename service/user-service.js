@@ -58,7 +58,6 @@ class UserService {
       password,
       candidate.rows[0].PWDHASH
     );
-
     if (!isEqualPassword) {
       throw ApiError.BadRequest("Некоректний пароль");
     }
