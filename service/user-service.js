@@ -7,30 +7,32 @@ const mailService = require("./mail-service");
 const tokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-errors");
+const sendRegisterMail = require("../nodemailer/register/register-mail");
 class UserService {
   async registration(email, password,KOD_UR) {
-    console.log(email);
+ 
     const connection = await oracledb.getConnection(pool);
     const candidate = await connection.execute(
-      `select * from ictdat.perus where email = '${email}' `
+      `select * from ictdat.perus where email = '${email}'`
     );
     if (candidate.rows > 0) {
       return ApiError.BadRequest(`Користувач з таким емейлом вже існує.`);
     }
     const hashPassword = await bcrypt.hash(password, 10);
-    const sql = `INSERT INTO ictdat.perus (email,pwdhash,kod_ur,datreestr) VALUES (:val1, :val2,:val3,:val4) returning kod into :outbind`;
+    const sql = `INSERT INTO ictdat.perus (email,pwdhash,kod_ur,datreestr,pwd) VALUES (:val1, :val2,:val3,:val4,:val5) returning kod into :outbind`;
     const binds = {
       val1: email,
       val2: hashPassword,
-      val3: 323191,
+      val3: KOD_UR,
       val4: new Date(),
+      val5: password,
       outbind: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
     };
     const options = {
       autoCommit: true,
     };
     const result = await connection.execute(sql, binds, options);
-    console.log(result);
+    sendRegisterMail(email,password)
     const thisUser = await connection.execute(
       `select * from ictdat.perus where email = '${email}'`
     );

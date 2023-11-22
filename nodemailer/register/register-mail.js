@@ -8,18 +8,17 @@ const sendRegisterMail = async (email,password) => {
     .readFileSync(('nodemailer/templates/register-template.html'), "utf-8")
     .toString();
 
-
     const template = handlebars.compile(source)
     const replacements = {
         // email:'redwoolfik@gmail.com',
-        email:"rt@ict.lviv.ua",
-        password:"test1test1"
+        email:email,
+        password:password
     }
     const htmlToSend = template(replacements)
 
     const info = await transporter.sendMail({
         from:"ict-info-logistics@ict.lviv.ua",
-        to:["tatarynrm@gmail.com","ab@ict.lviv.ua"],
+        to:[email],
         subject:"Вітаємо з реєстрацією!",
         text:"Ваші авторизаційні дані",
         html:htmlToSend

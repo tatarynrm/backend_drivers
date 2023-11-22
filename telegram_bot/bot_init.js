@@ -75,7 +75,7 @@ bot.on("contact", async (ctx) => {
 });
 
 bot.hears("ok", async (ctx) => {
-  console.log(ctx.message.contact);
+
   ctx.reply("sds");
 });
 bot.launch();

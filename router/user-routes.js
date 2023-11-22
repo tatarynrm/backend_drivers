@@ -22,6 +22,7 @@ router.post("/activate/:link", userController.refresh);
 router.get("/refresh", userController.refresh);
 router.post("/user", userController.getInfo);
 router.post("/data", userController.getTwoYearInfo);
+router.get("/usersAccounts", userController.getUsersAccounts);
 // authMiddleware,
 module.exports = router;
 // 6821

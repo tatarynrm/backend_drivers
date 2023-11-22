@@ -15,6 +15,7 @@ const cookieParser = require("cookie-parser");
 const server = require("http").createServer(app);
 const errrorMiddleware = require("./middlewares/error-middleware");
 const authRouter = require("./router/user-routes");
+const urRouter = require('./router/ur-routes')
 const transportationRouter = require("./router/transportation-routes");
 const externalLardiRouter = require("./external-api/lardi/routes/cargo");
 const {
@@ -70,6 +71,7 @@ app.use((req, res, next) => {
 
 app.use("/", authRouter);
 app.use("/", transportationRouter);
+app.use("/ur", urRouter);
 
 // EXTERNAL API
 app.use("/lardi", externalLardiRouter);

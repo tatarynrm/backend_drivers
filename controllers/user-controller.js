@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-errors");
 const oracledb = require("oracledb");
 const pool = require("../db/pool");
+const { log } = require("handlebars/runtime");
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 class UserController {
   async registration(req, res, next) {
@@ -15,14 +16,23 @@ class UserController {
       }
       const { email, password,KOD_UR } = req.body;
       const userData = await userService.registration(email, password,KOD_UR);
-      res.cookie("refreshToken", userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-      res.json(userData);
+      // res.cookie("refreshToken", userData.refreshToken, {
+      //   maxAge: 30 * 24 * 60 * 60 * 1000,
+      //   httpOnly: true,
+      // });
+
+   if (userData) {
+    res.json(userData)
+   }else {
+    res.json({
+      msg:"Error"
+    })
+   }
+
+   
     } catch (e) {
-      console.log(e);
-      next(e);
+   console.log(e);
+      res.json(e)
       
     }
   }
@@ -109,6 +119,18 @@ class UserController {
       next(e);
      
     }
+  }
+
+
+  async getUsersAccounts (req,res,next) {
+try {
+  const conn = await oracledb.getConnection(pool)
+  const result = await conn.execute(`select a.*,b.NDOV,b.ZKPO from ictdat.perus a left join ictdat.ur b on a.KOD_UR = b.KOD `)
+
+  res.json(result.rows)
+} catch (error) {
+  console.log(error);
+}
   }
 }
 
