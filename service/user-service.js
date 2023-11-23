@@ -94,7 +94,7 @@ class UserService {
     );
 // console.log(user.rows[0].KOD_UR);
 const urName = await conn.execute(`select * from ictdat.ur where kod = ${user.rows[0].KOD_UR}`)
-console.log(urName.rows[0].NUR);
+
 // const urInfo = urName
     const userDto = new UserDto({...user.rows[0]});
     const tokens = tokenService.generateTokens({ ...userDto});

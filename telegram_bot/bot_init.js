@@ -5,6 +5,7 @@ const { share_number, user_keyboard } = require("./bot_buttons");
 const bot = new Telegraf(process.env.BOT_TELEGRAM_TOKEN);
 const oracledb = require("oracledb");
 const pool = require("../db/pool");
+const { log } = require("handlebars/runtime");
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 bot.start(async (ctx) => {
   const connection = await oracledb.getConnection(pool);
@@ -31,12 +32,18 @@ bot.start(async (ctx) => {
   }
 });
 
-// Create a custom command for sharing the phone number
-// bot.hears("sharephone", (ctx) => {
-//   ctx.reply("Натисніть на кнопку поділитись контактом:", {
-//     reply_markup: keyboard,
-//   });
-// });
+console.log(user_keyboard.keyboard);
+for (let i = 0; i < user_keyboard.keyboard.length; i++) {
+  const el = user_keyboard.keyboard[i];
+  const text = el[0].text;
+  bot.hears(text, async (ctx) => {
+    await ctx.reply("В процесі розробки");
+  });
+}
+// for (let i = 0; i < but.length; i++) {
+//   const element = but[i];
+//   bot.hears('')
+// }
 
 // Handle the shared phone number
 bot.on("contact", async (ctx) => {
@@ -47,8 +54,9 @@ bot.on("contact", async (ctx) => {
     const connection = await oracledb.getConnection(pool);
     connection.currentSchema = "ICTDAT";
     const existUser = await connection.execute(
-      `select * from perus where PHONE_NUMBER = ${phone_number}`
+      `select * from perus where PHONE_NUMBER = '${phone_number}'`
     );
+
     if (existUser.rows.length > 0) {
       const updateSql = `update perus set TG_ID = :user_id where PHONE_NUMBER = :phone_number`;
       const bindParams = {
@@ -66,7 +74,8 @@ bot.on("contact", async (ctx) => {
     }
     if (existUser.rows.length <= 0) {
       await ctx.reply(
-        `Ви не можете використовувати бота.Зверніться в підтримку.`,{reply_markup:{remove_keyboard:true}}
+        `Ви не можете використовувати бота.Зверніться в підтримку.`,
+        { reply_markup: { remove_keyboard: true } }
       );
     }
   } catch (error) {
@@ -75,7 +84,6 @@ bot.on("contact", async (ctx) => {
 });
 
 bot.hears("ok", async (ctx) => {
-
   ctx.reply("sds");
 });
 bot.launch();

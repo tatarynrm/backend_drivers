@@ -78,7 +78,7 @@ class UserController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      console.log(req.cookies);
+    
 
       const userData = await userService.refresh(refreshToken);
       res.cookie("refreshToken", userData.refreshToken, {
@@ -132,6 +132,33 @@ try {
   console.log(error);
 }
   }
+
+
+
+ async  updateUserPhoneNumber (req,res,next) {
+  const {phone_number,email} = req.body;
+  console.log(req.body);
+  try {
+    const connection = await oracledb.getConnection(pool)
+    const sql = `update ictdat.perus set PHONE_NUMBER = :phone_number where email = :email `;
+    const binds = { phone_number: phone_number, email: email };
+    const options = {
+      autoCommit: true,
+    };
+    const result = await connection.execute(sql,binds, options);
+    if (result.rowsAffected === 1) {
+      res.json({
+        message:"Success"
+      })
+    }else {
+      res.json({
+        message:"Error"
+      })
+    }
+  } catch (error) {
+    console.log(error);
+  }
+ }
 }
 
 module.exports = new UserController();

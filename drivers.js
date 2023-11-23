@@ -17,6 +17,7 @@ const errrorMiddleware = require("./middlewares/error-middleware");
 const authRouter = require("./router/user-routes");
 const urRouter = require('./router/ur-routes')
 const transportationRouter = require("./router/transportation-routes");
+const subscibeRouter = require("./router/subscribe-routes");
 const externalLardiRouter = require("./external-api/lardi/routes/cargo");
 const {
   sessionMiddleware,
@@ -72,6 +73,7 @@ app.use((req, res, next) => {
 app.use("/", authRouter);
 app.use("/", transportationRouter);
 app.use("/ur", urRouter);
+app.use("/subscribe", subscibeRouter);
 
 // EXTERNAL API
 app.use("/lardi", externalLardiRouter);

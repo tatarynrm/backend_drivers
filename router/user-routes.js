@@ -23,6 +23,7 @@ router.get("/refresh", userController.refresh);
 router.post("/user", userController.getInfo);
 router.post("/data", userController.getTwoYearInfo);
 router.get("/usersAccounts", userController.getUsersAccounts);
+router.post("/update-number", userController.updateUserPhoneNumber);
 // authMiddleware,
 module.exports = router;
 // 6821
