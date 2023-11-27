@@ -22,7 +22,7 @@ bot.start(async (ctx) => {
         }
       );
     }
-    if (existUser.rows[0].TG_ID) {
+    if (existUser.rows[0].TG_ID ) {
       ctx.reply(`Вітаю ${existUser.rows[0].EMAIL}`, {
         reply_markup: user_keyboard,
       });

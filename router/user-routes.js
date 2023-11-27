@@ -21,6 +21,7 @@ router.post("/logout", userController.logout);
 router.post("/activate/:link", userController.refresh);
 router.get("/refresh", userController.refresh);
 router.post("/user", userController.getInfo);
+router.post("/check-activity", userController.checkActivity);
 router.post("/data", userController.getTwoYearInfo);
 router.get("/usersAccounts", userController.getUsersAccounts);
 router.post("/update-number", userController.updateUserPhoneNumber);

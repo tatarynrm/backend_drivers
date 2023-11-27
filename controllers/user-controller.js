@@ -64,6 +64,30 @@ class UserController {
       next(e);
     }
   }
+  async checkActivity(req, res, next) {
+    try {
+      const connection = await oracledb.getConnection(pool);
+      const { KOD_PERUS } = req.body;
+    
+
+
+      const result = await connection.execute(
+        `
+      BEGIN
+          ICTDAT.P_PERUS.AddCounter(:pKodPerUs);
+      END;
+      `,
+        {
+          pKodPerUs: KOD_PERUS,
+        }
+      );
+
+console.log(result);
+      // res.json(userData);
+    } catch (e) {
+      next(e);
+    }
+  }
   async logout(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
@@ -140,7 +164,7 @@ try {
   console.log(req.body);
   try {
     const connection = await oracledb.getConnection(pool)
-    const sql = `update ictdat.perus set PHONE_NUMBER = :phone_number where email = :email `;
+    const sql = `update ictdat.perus set PHONE_NUMBER = :phone_number,TG_ID = null where email = :email `;
     const binds = { phone_number: phone_number, email: email };
     const options = {
       autoCommit: true,
