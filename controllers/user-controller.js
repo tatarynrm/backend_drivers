@@ -149,7 +149,12 @@ console.log(result);
   async getUsersAccounts (req,res,next) {
 try {
   const conn = await oracledb.getConnection(pool)
-  const result = await conn.execute(`select a.*,b.NDOV,b.ZKPO from ictdat.perus a left join ictdat.ur b on a.KOD_UR = b.KOD `)
+  const result = await conn.execute(`select a.*,b.NDOV,b.ZKPO,c.COUNTER as count,c.DATLAST as datelastentry 
+  from ictdat.perus a 
+  left join ictdat.ur b on a.KOD_UR = b.KOD
+  left join ictdat.peruscounter c on a.KOD = c.KOD_PERUS 
+  
+  `)
 
   res.json(result.rows)
 } catch (error) {
