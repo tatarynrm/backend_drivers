@@ -32,6 +32,7 @@ const pool = require("./db/pool");
 const { sendBuhTransport } = require("./nodemailer/nodemailer");
 const sendRegisterMail = require("./nodemailer/register/register-mail");
 const bot = require("./telegram_bot/bot_init");
+const { log } = require("handlebars");
 
 const io = new Server(server, {
   cors: corsConfig,
@@ -84,6 +85,13 @@ app.use(errrorMiddleware);
 app.use(sessionMiddleware);
 
 app.get("/test", async (req, res) => {
+
+  const connection = await oracledb.getConnection(pool);
+  console.log(connection);
+  let arr = await connection.execute(`
+  select * from ictdat.OS
+  `)
+  console.log(arr);
   try {
     res.json({
       data: `TEST : ${moment(new Date()).format("LLLL")}`,

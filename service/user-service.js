@@ -8,6 +8,7 @@ const tokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-errors");
 const sendRegisterMail = require("../nodemailer/register/register-mail");
+const { log } = require("handlebars/runtime");
 class UserService {
   async registration(email, password,KOD_UR) {
  
@@ -48,11 +49,12 @@ class UserService {
     };
   }
   async login(email, password) {
+
     const conn = await oracledb.getConnection(pool);
     const candidate = await conn.execute(
       `select * from ictdat.perus where email = '${email}' `
     );
-
+console.log(candidate);
     if (candidate.rows <= 0) {
       throw ApiError.BadRequest(`Такого користувача не знайдено`);
     }

@@ -14,6 +14,7 @@ bot.start(async (ctx) => {
     const existUser = await connection.execute(
       `select * from perus where TG_ID = ${ctx.message.from.id}`
     );
+    console.log(existUser);
     if (existUser.rows <= 0) {
       await ctx.reply(
         "Вітаю.Для повноцінного користування ботом,- вам необхідно поділитись своїм контактом.",
@@ -32,14 +33,22 @@ bot.start(async (ctx) => {
   }
 });
 
-console.log(user_keyboard.keyboard);
-for (let i = 0; i < user_keyboard.keyboard.length; i++) {
-  const el = user_keyboard.keyboard[i];
-  const text = el[0].text;
-  bot.hears(text, async (ctx) => {
-    await ctx.reply("В процесі розробки");
-  });
-}
+// console.log(user_keyboard.keyboard);
+// for (let i = 0; i < user_keyboard.keyboard.length; i++) {
+//   const el = user_keyboard.keyboard[i];
+//   const text = el[0].text;
+//   bot.hears(text, async (ctx) => {
+//     await ctx.reply("В процесі розробки");
+//   });
+// }
+
+bot.hears(`Завантаження в процесі`,async ctx =>{
+  const connection = await oracledb.getConnection(pool);
+  connection.currentSchema = "ICTDAT";
+
+  const  user = await connection.execute(`select sysdate from dual`);
+})
+
 // for (let i = 0; i < but.length; i++) {
 //   const element = but[i];
 //   bot.hears('')
@@ -83,9 +92,7 @@ bot.on("contact", async (ctx) => {
   }
 });
 
-bot.hears("ok", async (ctx) => {
-  ctx.reply("sds");
-});
+
 bot.launch();
 // Enable graceful stop
 process.once("SIGINT", () => bot.stop("SIGINT"));

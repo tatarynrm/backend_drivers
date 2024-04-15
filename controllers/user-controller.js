@@ -37,9 +37,12 @@ class UserController {
     }
   }
   async login(req, res, next) {
+
     try {
+   
       const connection = await oracledb.getConnection(pool);
       const { email, password } = req.body;
+  
       const userData = await userService.login(email, password);
 
 
@@ -54,7 +57,7 @@ class UserController {
           pOper: "LOGIN",
         }
       );
-
+console.log('result!!!',result);
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -67,18 +70,19 @@ class UserController {
   async checkActivity(req, res, next) {
     try {
       const connection = await oracledb.getConnection(pool);
-      const { KOD_PERUS } = req.body;
+      const { KOD_PERUS,PAGE_NAME } = req.body;
     
 
 
       const result = await connection.execute(
         `
       BEGIN
-          ICTDAT.P_PERUS.AddCounter(:pKodPerUs);
+          ICTDAT.P_PERUS.AddCounter(:pKodPerUs,:pPageName);
       END;
       `,
         {
           pKodPerUs: KOD_PERUS,
+          pPageName:PAGE_NAME
         }
       );
 
