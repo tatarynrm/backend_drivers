@@ -204,7 +204,19 @@ ORDER BY a.dat DESC
       b.numrahp,
       b.datrahp,
       b.pernekomplekt
-from zay a
+from
+  (
+  select a.kod
+  from zay a
+  left join zaylst b on a.kod = b.kod_zay
+  where a.kod_per = ${KOD} and
+        a.datprov is not null and
+        a.appdat is not null and
+        b.datdocp is not null and
+        b.DATPNPREESTR is not null
+  order by a.dat desc
+  ) t 
+join zay a on t.kod = a.kod
 left join zaylst b on a.kod = b.kod_zay
 left join kraina c1 on a.kod_krainaz = c1.kod
 left join kraina c2 on a.kod_krainar = c2.kod
@@ -217,15 +229,8 @@ left join ur f2 on a.kod_per = f2.kod
 left join valut h2 on a.kod_valutp = h2.kod
 left join os m2 on a.kod_menp = m2.kod
 left join v_pertype p on a.code_per = p.code
- and
-     a.kod_per = ${KOD} and
-     a.datprov is not null and
-     a.appdat is not null and
-     b.datdocp is not null and
-     b.DATPNPREESTR is not null and 
-     a.dat > TO_DATE('2024-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2025-01-01', 'YYYY-MM-DD')
-     where rownum <= 50
-     order by a.dat DESC`
+where rownum <= 50  
+order by dat desc`
     );
     return {
       result,
