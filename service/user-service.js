@@ -83,10 +83,9 @@ console.log(candidate);
     if (!refreshToken) {
       throw ApiError.UnauthorizedError();
     }
-    console.log(refreshToken);
     const userData = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.checkToken(refreshToken);
-
+    console.log('tokenfromdb',tokenFromDb);
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }
