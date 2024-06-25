@@ -138,7 +138,7 @@ FROM
              AND b.pernekomplekt IS NULL 
              AND a.dat > TO_DATE('2023-01-01', 'YYYY-MM-DD') 
      ) 
-     WHERE rnum <= 10
+     WHERE rnum <= 50
     ) a
 LEFT JOIN zaylst b ON a.kod = b.kod_zay
 LEFT JOIN kraina c1 ON a.kod_krainaz = c1.kod
@@ -217,13 +217,14 @@ left join ur f2 on a.kod_per = f2.kod
 left join valut h2 on a.kod_valutp = h2.kod
 left join os m2 on a.kod_menp = m2.kod
 left join v_pertype p on a.code_per = p.code
-where rownum <= 50 and
+ and
      a.kod_per = ${KOD} and
      a.datprov is not null and
      a.appdat is not null and
      b.datdocp is not null and
      b.DATPNPREESTR is not null and 
      a.dat > TO_DATE('2023-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2024-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2025-01-01', 'YYYY-MM-DD')
+     where rownum <= 50
      order by a.dat DESC`
     );
     return {
