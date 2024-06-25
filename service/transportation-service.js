@@ -223,7 +223,7 @@ left join v_pertype p on a.code_per = p.code
      a.appdat is not null and
      b.datdocp is not null and
      b.DATPNPREESTR is not null and 
-     a.dat > TO_DATE('2023-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2024-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2025-01-01', 'YYYY-MM-DD')
+     a.dat > TO_DATE('2024-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2025-01-01', 'YYYY-MM-DD')
      where rownum <= 50
      order by a.dat DESC`
     );
