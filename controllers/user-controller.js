@@ -5,6 +5,7 @@ const oracledb = require("oracledb");
 const pool = require("../db/pool");
 const { log } = require("handlebars/runtime");
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
+
 class UserController {
   async registration(req, res, next) {
     try {
@@ -43,6 +44,7 @@ class UserController {
       const connection = await oracledb.getConnection(pool);
       const { email, password } = req.body;
   
+    
       const userData = await userService.login(email, password);
 
 

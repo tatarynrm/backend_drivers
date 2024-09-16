@@ -16,6 +16,7 @@ const server = require("http").createServer(app);
 const errrorMiddleware = require("./middlewares/error-middleware");
 const authRouter = require("./router/user-routes");
 const urRouter = require('./router/ur-routes')
+const payRouter = require('./router/pay-routes')
 const transportationRouter = require("./router/transportation-routes");
 const subscibeRouter = require("./router/subscribe-routes");
 const externalLardiRouter = require("./external-api/lardi/routes/cargo");
@@ -45,7 +46,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["https://carriers.ict.lviv.ua", "http://localhost:3000"],
+    origin: ["https://carriers.ict.lviv.ua", "http://localhost:3000", "http://localhost:3001"],
     methods: ["POST", "GET"],
     credentials: true,
   })
@@ -75,6 +76,7 @@ app.use("/", authRouter);
 app.use("/", transportationRouter);
 app.use("/ur", urRouter);
 app.use("/subscribe", subscibeRouter);
+app.use("/pay", payRouter);
 
 // EXTERNAL API
 app.use("/lardi", externalLardiRouter);

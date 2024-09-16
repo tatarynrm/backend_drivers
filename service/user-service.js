@@ -49,12 +49,12 @@ class UserService {
     };
   }
   async login(email, password) {
-
+  
     const conn = await oracledb.getConnection(pool);
     const candidate = await conn.execute(
       `select * from ictdat.perus where email = '${email}' `
     );
-console.log(candidate);
+
     if (candidate.rows <= 0) {
       throw ApiError.BadRequest(`Такого користувача не знайдено`);
     }
