@@ -10,6 +10,7 @@ const ApiError = require("../exceptions/api-errors");
 const sendRegisterMail = require("../nodemailer/register/register-mail");
 const { log } = require("handlebars/runtime");
 class UserService {
+  // Реєстрація
   async registration(email, password,KOD_UR) {
  
     const connection = await oracledb.getConnection(pool);
