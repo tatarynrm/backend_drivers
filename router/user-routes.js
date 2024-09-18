@@ -25,6 +25,10 @@ router.post("/check-activity", userController.checkActivity);
 router.post("/data", userController.getTwoYearInfo);
 router.get("/usersAccounts", userController.getUsersAccounts);
 router.post("/update-number", userController.updateUserPhoneNumber);
+
+
+router.post("/user-accounts-admin", userController.getUserAccountsAdmin);
+
 // authMiddleware,
 module.exports = router;
 // 6821

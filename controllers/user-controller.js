@@ -9,14 +9,14 @@ oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 class UserController {
   async registration(req, res, next) {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return next(
-          ApiError.BadRequest("Помилка валідації даних", errors.array())
-        );
-      }
-      const { email, password,KOD_UR } = req.body;
-      const userData = await userService.registration(email, password,KOD_UR);
+
+      const { email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin} = req.body;
+   
+      
+      const userData = await userService.registration(email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin);
+
+
+      
       // res.cookie("refreshToken", userData.refreshToken, {
       //   maxAge: 30 * 24 * 60 * 60 * 1000,
       //   httpOnly: true,
@@ -44,9 +44,13 @@ class UserController {
       const connection = await oracledb.getConnection(pool);
       const { email, password } = req.body;
   
+
+   
+      
     
       const userData = await userService.login(email, password);
 
+console.log(userData);
 
       const result = await connection.execute(
         `
@@ -59,7 +63,7 @@ class UserController {
           pOper: "LOGIN",
         }
       );
-console.log('result!!!',result);
+
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -159,6 +163,21 @@ try {
   from ictdat.perus a 
   left join ictdat.ur b on a.KOD_UR = b.KOD
   left join ictdat.peruscounter c on a.KOD = c.KOD_PERUS 
+  
+  `)
+
+  res.json(result.rows)
+} catch (error) {
+  console.log(error);
+}
+  }
+  async getUserAccountsAdmin (req,res,next) {
+
+    const {kod_ur} = req.body
+try {
+  const conn = await oracledb.getConnection(pool)
+  const result = await conn.execute(`
+    select * from ictdat.perus where kod_ur = ${kod_ur}
   
   `)
 

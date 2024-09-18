@@ -8,6 +8,12 @@ module.exports = class UserDto {
   PHONE_NUMBER;
   TG_NOT;
   EMAILNOT;
+  ISADMIN;
+  PERADMIN;
+  PRIZV;
+  NAME;
+  POBAT;
+ 
 
   constructor(model) {
     this.EMAIL = model.EMAIL;
@@ -19,5 +25,11 @@ module.exports = class UserDto {
     this.PHONE_NUMBER = model.PHONE_NUMBER;
     this.TG_NOT = model.TG_NOT;
     this.EMAILNOT = model.EMAILNOT;
+    this.ISADMIN = model.ISADMIN;
+    this.PERADMIN = model.PERADMIN;
+    this.PRIZV = model.PRIZV;
+    this.NAME = model.NAME;
+    this.POBAT = model.POBAT;
+
   }
 };

@@ -11,43 +11,63 @@ const sendRegisterMail = require("../nodemailer/register/register-mail");
 const { log } = require("handlebars/runtime");
 class UserService {
   // Реєстрація
-  async registration(email, password,KOD_UR) {
+  async registration(email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin) {
  
+ 
+    
     const connection = await oracledb.getConnection(pool);
     const candidate = await connection.execute(
       `select * from ictdat.perus where email = '${email}'`
     );
     if (candidate.rows > 0) {
-      return ApiError.BadRequest(`Користувач з таким емейлом вже існує.`);
+      return {
+        message:'USER EXIST'
+      }
     }
-    const hashPassword = await bcrypt.hash(password, 10);
-    const sql = `INSERT INTO ictdat.perus (email,pwdhash,kod_ur,datreestr,pwd) VALUES (:val1, :val2,:val3,:val4,:val5) returning kod into :outbind`;
+    const hashPassword = await bcrypt.hash(pwd, 10);
+    const sql = `INSERT INTO ictdat.perus (email,pwdhash,kod_ur,datreestr,pwd,prizv,name,pobat,phone_number,peradmin) VALUES (:val1, :val2,:val3,:val4,:val5,:val6,:val7,:val8,:val9,:val10) returning kod into :outbind`;
     const binds = {
       val1: email,
       val2: hashPassword,
-      val3: KOD_UR,
+      val3: kod_ur,
       val4: new Date(),
-      val5: password,
+      val5: pwd,
+      val6: surname,
+      val7: name,
+      val8: last_name,
+      val9: phone_number,
+      val10: per_admin,
       outbind: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
     };
     const options = {
       autoCommit: true,
     };
     const result = await connection.execute(sql, binds, options);
-    sendRegisterMail(email,password)
-    const thisUser = await connection.execute(
-      `select * from ictdat.perus where email = '${email}'`
-    );
-    const userData = thisUser.rows[0];
-    const userDto = new UserDto(userData);
+    // sendRegisterMail(email,password)
 
-    const tokens = tokenService.generateTokens({ ...userDto });
+if (result) {
+  const thisUser = await connection.execute(
+    `select * from ictdat.perus where email = '${email}'`
+  );
+  const userData = thisUser.rows[0];
+  const userDto = new UserDto(userData);
 
-    await tokenService.saveToken(userDto.KOD, tokens.refreshToken);
-    return {
-      ...tokens,
-      user: userDto,
-    };
+  const tokens = tokenService.generateTokens({ ...userDto });
+
+  await tokenService.saveToken(userDto.KOD, tokens.refreshToken);
+  return {
+    ...tokens,
+    user: userDto,
+  };
+  
+}else {
+return {
+  msg:'USER ALREADY EXIST'
+}
+  
+}
+    
+
   }
   async login(email, password) {
   
@@ -64,7 +84,7 @@ class UserService {
       candidate.rows[0].PWDHASH
     );
     if (!isEqualPassword) {
-      throw ApiError.BadRequest("Некоректний пароль");
+      throw ApiError.BadRequest("Incorect password");
     }
     const userDto = new UserDto(candidate.rows[0]);
     const tokens = tokenService.generateTokens({ ...userDto });
