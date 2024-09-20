@@ -12,8 +12,9 @@ const strSel = (KOD, DATE) => {
         a.am || ' ' || a.vod1 as line3,
         
         b.borgp,  
+        a.persuma,
         d.idv,  
-        
+      
         b.datdocp,
         b.datpoplplan,
         b.datpoplfakt,
