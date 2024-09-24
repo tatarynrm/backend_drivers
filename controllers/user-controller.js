@@ -10,10 +10,11 @@ class UserController {
   async registration(req, res, next) {
     try {
 
-      const { email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin} = req.body;
+      const { email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin,is_admin} = req.body;
+   console.log('REQ BODY REGISTER',req.body);
    
       
-      const userData = await userService.registration(email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin);
+      const userData = await userService.registration(email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin,is_admin);
 
 
       
@@ -43,15 +44,7 @@ class UserController {
    
       const connection = await oracledb.getConnection(pool);
       const { email, password } = req.body;
-  
-
-   
-      
-    
       const userData = await userService.login(email, password);
-
-console.log(userData);
-
       const result = await connection.execute(
         `
       BEGIN
@@ -159,14 +152,14 @@ console.log(result);
   async getUsersAccounts (req,res,next) {
 try {
   const conn = await oracledb.getConnection(pool)
-  const result = await conn.execute(`select a.*,b.NDOV,b.ZKPO,c.COUNTER as count,c.DATLAST as datelastentry 
+  const result = await conn.execute(`select a.*,b.NDOV,b.ZKPO
   from ictdat.perus a 
   left join ictdat.ur b on a.KOD_UR = b.KOD
-  left join ictdat.peruscounter c on a.KOD = c.KOD_PERUS 
+
   
   `)
 
-  res.json(result.rows)
+  res.json(result)
 } catch (error) {
   console.log(error);
 }
@@ -203,6 +196,32 @@ try {
     if (result.rowsAffected === 1) {
       res.json({
         message:"Success"
+      })
+    }else {
+      res.json({
+        message:"Error"
+      })
+    }
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
+ async updateAdminCompany (req,res,next) {
+  const {kod_ur,kod} = req.body;
+
+  try {
+    const connection = await oracledb.getConnection(pool)
+    const sql = `update ictdat.perus set KOD_UR = :kod_ur  where KOD = :kod `;
+    const binds = { kod_ur, kod};
+    const options = {
+      autoCommit: true,
+    };
+    const result = await connection.execute(sql,binds, options);
+    if (result.rowsAffected === 1) {
+      res.json({
+        message:"Success",
+        status:200
       })
     }else {
       res.json({

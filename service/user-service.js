@@ -11,7 +11,7 @@ const sendRegisterMail = require("../nodemailer/register/register-mail");
 const { log } = require("handlebars/runtime");
 class UserService {
   // Реєстрація
-  async registration(email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin) {
+  async registration(email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin,is_admin) {
  
  
     
@@ -25,7 +25,7 @@ class UserService {
       }
     }
     const hashPassword = await bcrypt.hash(pwd, 10);
-    const sql = `INSERT INTO ictdat.perus (email,pwdhash,kod_ur,datreestr,pwd,prizv,name,pobat,phone_number,peradmin) VALUES (:val1, :val2,:val3,:val4,:val5,:val6,:val7,:val8,:val9,:val10) returning kod into :outbind`;
+    const sql = `INSERT INTO ictdat.perus (email,pwdhash,kod_ur,datreestr,pwd,prizv,name,pobat,phone_number,peradmin,isadmin) VALUES (:val1, :val2,:val3,:val4,:val5,:val6,:val7,:val8,:val9,:val10,:val11) returning kod into :outbind`;
     const binds = {
       val1: email,
       val2: hashPassword,
@@ -37,6 +37,7 @@ class UserService {
       val8: last_name,
       val9: phone_number,
       val10: per_admin,
+      val11: is_admin,
       outbind: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
     };
     const options = {
