@@ -29,7 +29,7 @@ router.post("/update-company", userController.updateAdminCompany);
 
 
 router.post("/user-accounts-admin", userController.getUserAccountsAdmin);
-
+ 
 // authMiddleware,
 module.exports = router;
 // 6821

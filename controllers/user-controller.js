@@ -170,7 +170,7 @@ try {
 try {
   const conn = await oracledb.getConnection(pool)
   const result = await conn.execute(`
-    select * from ictdat.perus where kod_ur = ${kod_ur}
+    select * from ictdat.perus where kod_ur = ${kod_ur} and ISADMIN = 0 AND email NOT LIKE '%@ict.lviv.ua%'
   
   `)
 
