@@ -19,6 +19,7 @@ const urRouter = require('./router/ur-routes')
 const payRouter = require('./router/pay-routes')
 const transportationRouter = require("./router/transportation-routes");
 const subscibeRouter = require("./router/subscribe-routes");
+const offersRouter = require("./router/offers.route");
 const externalLardiRouter = require("./external-api/lardi/routes/cargo");
 const {
   sessionMiddleware,
@@ -77,6 +78,7 @@ app.use("/", transportationRouter);
 app.use("/ur", urRouter);
 app.use("/subscribe", subscibeRouter);
 app.use("/pay", payRouter);
+app.use("/offers", offersRouter);
 
 // EXTERNAL API
 app.use("/lardi", externalLardiRouter);
