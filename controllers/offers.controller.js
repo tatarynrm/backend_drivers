@@ -93,6 +93,21 @@ class OffersController {
       console.log(error);
     }
   };
+
+  // Користувачі до реєстрації
+
+  getAllPreRegisterUsers = async (req, res) => {
+
+    try {
+const users = await noris.query(`select * from users_to_register`);
+
+console.log(users);
+
+res.json(users)
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 module.exports = new OffersController();

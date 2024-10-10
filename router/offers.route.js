@@ -10,6 +10,8 @@ router.post("/new", offersController.createOffer);
 
 router.post("/account-register", offersController.preRegisterAccountCreate);
 
+router.get("/users-to-register", offersController.getAllPreRegisterUsers);
+
 
 // authMiddleware,
 module.exports = router;
