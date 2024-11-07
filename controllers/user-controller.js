@@ -4,6 +4,7 @@ const ApiError = require("../exceptions/api-errors");
 const oracledb = require("oracledb");
 const pool = require("../db/pool");
 const { log } = require("handlebars/runtime");
+
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
 class UserController {
@@ -11,9 +12,11 @@ class UserController {
     try {
 
       const { email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin,is_admin} = req.body;
-   console.log('REQ BODY REGISTER',req.body);
+
    
       
+   
+
       const userData = await userService.registration(email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin,is_admin);
 
 

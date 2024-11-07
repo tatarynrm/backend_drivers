@@ -7,8 +7,10 @@ const mailService = require("./mail-service");
 const tokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-errors");
-const sendRegisterMail = require("../nodemailer/register/register-mail");
-const { log } = require("handlebars/runtime");
+const { sendRegistrationSuccess } = require("../mail-service/registrration.sendEmail");
+
+const {sendEmailSuccessRegister} = require('../nodemailer/register/register-mail')
+
 class UserService {
   // Реєстрація
   async registration(email, pwd,kod_ur,surname,name,last_name,phone_number,per_admin,is_admin) {
@@ -56,6 +58,13 @@ if (result) {
   const tokens = tokenService.generateTokens({ ...userDto });
 
   await tokenService.saveToken(userDto.KOD, tokens.refreshToken);
+
+
+  
+  // await sendRegistrationSuccess(email,'Успішна реєстрація в особистому кабінеті перевізнка 🚚',`Вітаємо з успішною реєстрацію в особистому кабінеті перевізника\n\nhttps://carriers.ict.lviv.ua\n\nВаші авторизаційні дані:\n\nLogin:\n${email}\n----------\nPassword:\n${pwd}`)
+ await sendEmailSuccessRegister(email,pwd)
+  
+  
   return {
     ...tokens,
     user: userDto,
@@ -107,7 +116,7 @@ return {
     }
     const userData = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.checkToken(refreshToken);
-    console.log('tokenfromdb',tokenFromDb);
+   
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }
@@ -115,7 +124,7 @@ return {
     const user = await conn.execute(
       `select * from ictdat.perus where kod = ${userData.KOD}`
     );
-// console.log(user.rows[0].KOD_UR);
+
 const urName = await conn.execute(`select * from ictdat.ur where kod = ${user.rows[0].KOD_UR}`)
 
 // const urInfo = urName

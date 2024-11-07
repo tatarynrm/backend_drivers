@@ -60,7 +60,7 @@ class OffersController {
       surname,
       name,
       last_name,
-      company
+      company,
     } = req.body;
 
     try {
@@ -82,13 +82,13 @@ class OffersController {
           surname,
           name,
           last_name,
-          company
+          company,
         ]
       );
 
-   if (newAccount.rows) {
-    res.status(200).json(newAccount.rows)
-   }
+      if (newAccount.rows) {
+        res.status(200).json(newAccount.rows);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -97,13 +97,18 @@ class OffersController {
   // Користувачі до реєстрації
 
   getAllPreRegisterUsers = async (req, res) => {
-
     try {
-const users = await noris.query(`select * from users_to_register`);
+      const users = await noris.query(`select * from users_to_register`);
 
-console.log(users);
+      const usersStatuses = await noris.query(
+        `select * from users_to_register_statuses`
+      );
+      const statuses = usersStatuses.rows;
 
-res.json(users)
+      res.json({
+        users,
+        statuses,
+      });
     } catch (error) {
       console.log(error);
     }

@@ -11,9 +11,6 @@ const moment = require('moment')
 
 class PayService {
 
-
-
-
   async getPayDays(KOD) {
     const connection = await oracledb.getConnection(pool);
     connection.currentSchema = "ICTDAT";
@@ -38,6 +35,9 @@ const dataArray = Object.entries(data).map(([date, objects]) => ({
   date,
   objects
 }));
+
+
+console.log(result.rows);
 
 
     return {

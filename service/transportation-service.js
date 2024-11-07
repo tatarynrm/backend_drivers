@@ -161,7 +161,7 @@ where
      a.dat > TO_DATE('2023-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2024-01-01', 'YYYY-MM-DD') or a.dat > TO_DATE('2025-01-01', 'YYYY-MM-DD')
      order by a.dat DESC`
     );
-    console.log(result.rows);
+  
     return {
       result,
     };
@@ -194,7 +194,7 @@ where
       left join kraina c2 on a.kod_krainar = c2.kod
       WHERE a.status = 0`
       );
-      console.log(result);
+    
       return {
         result,
       };
@@ -207,7 +207,7 @@ where
   async transportationsInfo(KOD,DATE) {
     const connection = await oracledb.getConnection(pool);
     connection.currentSchema = "ICTDAT";
-console.log(KOD,DATE);
+
 try {
   function convertDateToISOString(inputDate) {
     const [day, month, year] = inputDate.split('.');
@@ -251,7 +251,7 @@ try {
 strSel(KOD,DATE ?DATE : null)
   );
 
-console.log(result.rows);
+
 const rows = result.rows
     return {
       rows,

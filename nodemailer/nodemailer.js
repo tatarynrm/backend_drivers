@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 const sendBuhTransport = async () => {
   const mailOptions = {
-    from: "ict-info-logistics@ict.lviv.ua",
+    from: "cargo-info@ict.lviv.ua",
     to: "rt@ict.lviv.ua",
     subject: "Sending Email using Node.js",
     text: "Наші вантажі...........",
