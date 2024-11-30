@@ -7,6 +7,9 @@ router.post("/search", urController.getContrAgents);
 
 router.post("/search-pre-register", urController.getContrAgentsPreRegister);
 
+
+router.get("/registered-companies", urController.getAllRegisterCompanies);
+
 // authMiddleware,
 module.exports = router;
 // 6821

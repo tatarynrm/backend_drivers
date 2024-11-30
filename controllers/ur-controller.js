@@ -94,6 +94,19 @@ class UrController {
       console.log(error);
     }
   };
+
+  getAllRegisterCompanies = async (req, res) => {
+    const connection = await OracleDB.getConnection(pool);
+    try {
+      const data = await connection.execute(`
+      SELECT DISTINCT b.NUR
+FROM ICTDAT.PERUS a
+LEFT JOIN ICTDAT.UR b ON a.KOD_UR = b.KOD
+        `);
+
+      res.status(200).json(data.rows);
+    } catch (error) {}
+  };
 }
 
 module.exports = new UrController();

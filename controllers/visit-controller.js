@@ -13,7 +13,7 @@ class VisitController {
     try {
       // Виконуємо запит до бази даних
       const data = await noris.query("SELECT * FROM users_to_register");
-      
+
       // Лог для перевірки результату
       console.log(data.rows); // Виводимо результати запиту до консоль
 
@@ -25,7 +25,7 @@ class VisitController {
         "SELECT counter FROM visitors WHERE date = $1 AND page = $2 AND company = $3",
         [today, page, company]
       );
-      
+
       if (checkRes.rows.length > 0) {
         // Якщо запис існує, збільшуємо значення counter
         const updateRes = await noris.query(
@@ -50,12 +50,33 @@ class VisitController {
     } catch (e) {
       // Якщо сталася помилка, відкатуємо транзакцію
       await noris.query("ROLLBACK");
-      
+
       // Лог помилки
       console.error("Error recording visit:", e);
 
       // Відправляємо помилку
       res.status(500).send({ success: false, error: e.message });
+    }
+  };
+
+  getCompanyVisit = async (req, res) => {
+    const {company} = req.body
+
+    console.log(company);
+    
+    try {
+      const data = await noris.query(`
+        SELECT * 
+        FROM visitors 
+        WHERE company LIKE '%' || $1 || '%'
+          AND DATE_TRUNC('month', date) = DATE_TRUNC('month', CURRENT_DATE);
+      `, [company]);
+console.log(data.rows);
+
+   res.status(200).json(data);
+    } catch (error) {
+      console.log(error);
+      
     }
   };
 }
