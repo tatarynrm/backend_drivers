@@ -13,6 +13,7 @@ module.exports = class UserDto {
   PRIZV;
   NAME;
   POBAT;
+
  
 
   constructor(model) {
@@ -30,6 +31,7 @@ module.exports = class UserDto {
     this.PRIZV = model.PRIZV;
     this.NAME = model.NAME;
     this.POBAT = model.POBAT;
+  
 
   }
 };

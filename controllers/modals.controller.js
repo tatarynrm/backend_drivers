@@ -7,7 +7,7 @@ class ModalsController {
   createModalCheckIfNotExist = async (req, res) => {
     console.log(req.body);
     
-    const { user_id, ur,count,comment,is_check } = req.body;
+    const { user_id, ur,count,comment,is_check,pipfull } = req.body;
     try {
 
 
@@ -17,8 +17,8 @@ class ModalsController {
 
 if (checkIsTrue.rows.length <= 0 ) {
             const modalCreate = await noris.query(
-        `insert into modals (user_id,ur,count,comment,is_check) values ($1,$2,$3,$4,$5) RETURNING*;`,
-        [user_id, ur,count,comment,is_check]
+        `insert into modals (user_id,ur,count,comment,is_check,pipfull) values ($1,$2,$3,$4,$5,$6) RETURNING*;`,
+        [user_id, ur,count,comment,is_check,pipfull]
       );
       console.log('DASDSA',modalCreate);
       
@@ -27,10 +27,10 @@ if (checkIsTrue.rows.length <= 0 ) {
 else if(count !== null || comment) {
     const modalUpdate = await noris.query(
         `UPDATE modals
-         SET  count = $1, comment = $2, is_check = $3
-         WHERE user_id = $4
+         SET  count = $1, comment = $2, is_check = $3,pipfull=$4
+         WHERE user_id = $5
          RETURNING *;`,
-        [count, comment, is_check, user_id]
+        [count, comment, is_check,pipfull, user_id]
       );
       res.json(modalUpdate)
 }else {

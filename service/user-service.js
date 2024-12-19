@@ -83,8 +83,12 @@ return {
   
     const conn = await oracledb.getConnection(pool);
     const candidate = await conn.execute(
-      `select * from ictdat.perus where email = '${email}' `
+      `select a.*,b.NUR from ictdat.perus a
+      left join ictdat.ur b on a.KOD_UR = b.KOD
+      where a.email = '${email}' `
     );
+    console.log('CANDIDATE',candidate);
+    
 
     if (candidate.rows <= 0) {
       throw ApiError.BadRequest(`Такого користувача не знайдено`);
@@ -97,12 +101,12 @@ return {
       throw ApiError.BadRequest("Incorect password");
     }
     const userDto = new UserDto(candidate.rows[0]);
-    const tokens = tokenService.generateTokens({ ...userDto });
+    const tokens = tokenService.generateTokens({ ...userDto});
     await tokenService.saveToken(userDto.KOD, tokens.refreshToken);
 
     return {
       ...tokens,
-      user: userDto,
+      user: {...userDto,NUR: candidate.rows[0].NUR},
     };
   }
 
