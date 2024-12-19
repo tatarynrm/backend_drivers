@@ -42,7 +42,7 @@ class UrController {
   };
   getContrAgentsPreRegister = async (req, res) => {
     const { email, phone_number, company } = req.body;
-    console.log(req.body);
+  
 
     try {
       const connection = await OracleDB.getConnection(pool);
@@ -81,9 +81,7 @@ class UrController {
           searchTerm: email,
         }
       );
-      console.log("DASDASADS", resultNameOrKodCheck.rows);
-      console.log("DASDASADS", resultPhoneCheck.rows);
-      console.log("DASDASADS", resultEmailCheck.rows);
+  
 
       res.status(200).json({
         name_kod: resultNameOrKodCheck.rows,

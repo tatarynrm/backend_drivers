@@ -21,6 +21,7 @@ const transportationRouter = require("./router/transportation-routes");
 const subscibeRouter = require("./router/subscribe-routes");
 const offersRouter = require("./router/offers.route");
 const visitRouter = require('./router/visit.route')
+const modalsRoute = require('./router/modals.route')
 const externalLardiRouter = require("./external-api/lardi/routes/cargo");
 const {
   sessionMiddleware,
@@ -81,6 +82,7 @@ app.use("/subscribe", subscibeRouter);
 app.use("/pay", payRouter);
 app.use("/offers", offersRouter);
 app.use("/visit", visitRouter);
+app.use("/modals", modalsRoute);
 
 // EXTERNAL API
 app.use("/lardi", externalLardiRouter);
@@ -93,11 +95,11 @@ app.use(sessionMiddleware);
 app.get("/test", async (req, res) => {
 
   const connection = await oracledb.getConnection(pool);
-  console.log(connection);
+
   let arr = await connection.execute(`
   select * from ictdat.OS
   `)
-  console.log(arr);
+
   try {
     res.json({
       data: `TEST : ${moment(new Date()).format("LLLL")}`,

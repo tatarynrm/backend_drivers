@@ -12,7 +12,7 @@ class TransportationController {
   
       res.json(userData.result.rows);
     } catch (e) {
-      console.log(e);
+   
       next(e);
     }
   }
@@ -22,7 +22,7 @@ class TransportationController {
       const userData = await transportationService.payFullTransportations(KOD);
       res.json(userData.result.rows);
     } catch (e) {
-      console.log(e);
+     
       next(e);
     }
   }
@@ -32,7 +32,7 @@ class TransportationController {
       const userData = await transportationService.notEnoughDocs(KOD);
       res.json(userData.result.rows);
     } catch (e) {
-      console.log(e);
+    
       next(e);
     }
   }
@@ -48,7 +48,7 @@ class TransportationController {
       });
       res.json(updatedArray);
     } catch (e) {
-      console.log(e);
+     
       next(e);
     }
   }
@@ -75,7 +75,7 @@ class TransportationController {
  }
  async  getDocumentsRequest (req,res,next) {
 const {KOD} = req.body;
-console.log(KOD);
+
 
 
   try {

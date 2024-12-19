@@ -36,7 +36,7 @@ class UserController {
 
    
     } catch (e) {
-   console.log(e);
+   
       res.json(e)
       
     }
@@ -88,7 +88,7 @@ class UserController {
         }
       );
 
-console.log(result);
+
       // res.json(userData);
     } catch (e) {
       next(e);
@@ -187,7 +187,7 @@ try {
 
  async  updateUserPhoneNumber (req,res,next) {
   const {phone_number,email} = req.body;
-  console.log(req.body);
+ 
   try {
     const connection = await oracledb.getConnection(pool)
     const sql = `update ictdat.perus set PHONE_NUMBER = :phone_number,TG_ID = null where email = :email `;

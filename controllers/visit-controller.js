@@ -15,7 +15,7 @@ class VisitController {
       const data = await noris.query("SELECT * FROM users_to_register");
 
       // Лог для перевірки результату
-      console.log(data.rows); // Виводимо результати запиту до консоль
+
 
       // Починаємо транзакцію
       await noris.query("BEGIN");
@@ -62,7 +62,7 @@ class VisitController {
   getCompanyVisit = async (req, res) => {
     const {company} = req.body
 
-    console.log(company);
+
     
     try {
       const data = await noris.query(`
@@ -71,7 +71,7 @@ class VisitController {
         WHERE company LIKE '%' || $1 || '%'
           AND DATE_TRUNC('month', date) = DATE_TRUNC('month', CURRENT_DATE);
       `, [company]);
-console.log(data.rows);
+
 
    res.status(200).json(data);
     } catch (error) {

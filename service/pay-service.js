@@ -37,7 +37,7 @@ const dataArray = Object.entries(data).map(([date, objects]) => ({
 }));
 
 
-console.log(result.rows);
+
 
 
     return {

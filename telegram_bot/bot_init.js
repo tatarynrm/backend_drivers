@@ -14,7 +14,7 @@ bot.start(async (ctx) => {
     const existUser = await connection.execute(
       `select * from perus where TG_ID = ${ctx.message.from.id}`
     );
-    console.log(existUser);
+ 
     if (existUser.rows <= 0) {
       await ctx.reply(
         "Вітаю.Для повноцінного користування ботом,- вам необхідно поділитись своїм контактом.",
@@ -58,7 +58,7 @@ bot.hears(`Завантаження в процесі`,async ctx =>{
 bot.on("contact", async (ctx) => {
   try {
     const { phone_number } = ctx.message.contact;
-    console.log(phone_number);
+
     const user_id = await ctx.message.from.id;
     const connection = await oracledb.getConnection(pool);
     connection.currentSchema = "ICTDAT";
@@ -77,7 +77,7 @@ bot.on("contact", async (ctx) => {
       };
       const result = await connection.execute(updateSql, bindParams, options);
 
-      console.log("Data updated successfully.");
+
       await connection.close();
       await ctx.reply(`Вітаю!`, { reply_markup: user_keyboard });
     }

@@ -15,7 +15,7 @@ const currSchema = process.env.DB_CURRENT_SCHEMA;
 async function initDb() {
   try {
     const pool = await ora.createPool(poolConfig);
-    console.log("Запуск бази");
+ 
   } catch (err) {
    console.log(err);
   }

@@ -15,7 +15,7 @@ class TransportationService {
    
 const result = await connection.execute(`select a.* from zaylst a where kod_zay = ${KOD}`)
     
-console.log(result);
+
 return {
       result,
     };
@@ -311,7 +311,7 @@ where a.kod = ${KOD} and
       a.appdat >= TO_DATE('01.01.2024', 'DD.MM.YYYY') and
       (b.borgp > 0 or b.datpoplfakt > trunc(sysdate) - 3)`
   );
-  console.log(result);
+
 const rows = result.rows
     return {
       rows,

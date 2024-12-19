@@ -32,7 +32,7 @@ class SubscribeController {
       };
     tgSubscribe = async (req, res) => {
         const { value,user_id } = req.body;
-        console.log(req.body);
+     
         try {
           const connection = await OracleDB.getConnection(pool);
      
