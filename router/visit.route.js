@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.post("/record", visitController.visitRecord);
 router.post("/visits", visitController.getCompanyVisit);
+router.get("/visits-all", visitController.visitAllData);
 
 
 // authMiddleware,

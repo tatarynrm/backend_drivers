@@ -58,7 +58,28 @@ class VisitController {
       res.status(500).send({ success: false, error: e.message });
     }
   };
-
+visitAllData = async (req,res)=>{
+  try {
+    const query = `
+      SELECT 
+        "company", 
+        COUNT(*) AS visit_count 
+      FROM 
+       visitors
+      WHERE 
+        DATE_TRUNC('month', "date") = DATE_TRUNC('month', CURRENT_DATE)
+      GROUP BY 
+        "company"
+      ORDER BY 
+        visit_count DESC;
+    `;
+    const { rows } = await noris.query(query);
+    res.json(rows);
+  } catch (err) {
+    console.error('Помилка:', err);
+    res.status(500).send('Internal Server Error');
+  }
+}
   getCompanyVisit = async (req, res) => {
     const {company} = req.body
 

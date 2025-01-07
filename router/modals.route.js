@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/get-check", modalsController.createModalCheckIfNotExist);
 
-
+router.get('/get-all',modalsController.getAllModals)
 
 
 

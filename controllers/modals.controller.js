@@ -53,7 +53,19 @@ else if(count !== null || comment) {
     }
   };
 
+  getAllModals = async (req, res) => {
+    try {
+      const result = await noris.query('SELECT * FROM modals');
+     
 
+  
+      res.json(result.rows);
+    } catch (error) {
+      console.error('Помилка при отриманні даних: ', error);
+      res.status(500).send('Виникла помилка на сервері');
+    }
+  }
+  
 
 
   // Користувачі до реєстрації
