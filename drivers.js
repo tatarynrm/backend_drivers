@@ -123,10 +123,6 @@ io.on("connect", (socket) => {
   initializeUser(socket);
 });
 
-// setTimeout(()=>{
-//   // sendBuhTransport()
-//   sendRegisterMail()
-// },2000)
 
 server.listen(process.env.PORT || 8801, async () => {
   // await initDb();

@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
   // service: "smtp",
   host: "mail.ict.lviv.ua",
@@ -7,6 +7,9 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: "ict-info-logistics@ict.lviv.ua",
     pass: "Tfc34#sR51",
+  },
+  tls: {
+    rejectUnauthorized: false, // Ігнорує помилки сертифікатів
   },
 });
 
